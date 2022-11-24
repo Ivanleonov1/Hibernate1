@@ -7,9 +7,9 @@ import jm.task.core.jdbc.service.UserServiceImpl;
 public class Main {
     private static final UserService userService = new UserServiceImpl();
     private static final User user1 = new User("Ivan", "Petrov", (byte) 30);
-    private static final User user2 = new User("Petr", "Ivanov", (byte) 18);
-    private static final User user3 = new User("John", "Smith", (byte) 46);
-    private static final User user4 = new User("Harry", "Potter", (byte) 52);
+    private static final User user2 = new User("Petr", "Ivanov", (byte) 28);
+    private static final User user3 = new User("Olga", "Vasina", (byte) 26);
+    private static final User user4 = new User("Oleg", "Olegov", (byte) 32);
 
     public static void main(String[] args) {
         userService.createUsersTable();
