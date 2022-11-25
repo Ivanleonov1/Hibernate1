@@ -1,10 +1,6 @@
 package jm.task.core.jdbc.model;
 
 import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -18,7 +14,7 @@ public class User {
     @Column
     private String name;
 
-    @Column(name = "lastname")
+    @Column(name = "lastName")
     private String lastName;
 
     @Column
