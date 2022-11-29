@@ -17,26 +17,29 @@ public class Util {
 
 
     public static SessionFactory getConnection() {
-        try {
-            Configuration configuration = new Configuration()
-                    .setProperty("hibernate.connection.driver_class", DB_DRIVER)
-                    .setProperty("hibernate.connection.url", DB_URL)
-                    .setProperty("hibernate.connection.username", DB_USERNAME)
-                    .setProperty("hibernate.connection.password", DB_PASSWORD)
-                    .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")
-                    .setProperty("cache.provider_class", "hibernate.cache.NoCacheProvider")
-                    .setProperty("hibernate.c3p0.min_size","5")
-                    .setProperty("hibernate.c3p0.max_size","200")
-                    .setProperty("hibernate.c3p0.max_statements","200");
-            configuration.addAnnotatedClass(User.class);
+        if (sessionFactory != null) {
+            try {
+                Configuration configuration = new Configuration()
+                        .setProperty("hibernate.connection.driver_class", DB_DRIVER)
+                        .setProperty("hibernate.connection.url", DB_URL)
+                        .setProperty("hibernate.connection.username", DB_USERNAME)
+                        .setProperty("hibernate.connection.password", DB_PASSWORD)
+                        .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")
+                        .setProperty("cache.provider_class", "hibernate.cache.NoCacheProvider")
+                        .setProperty("hibernate.c3p0.min_size", "5")
+                        .setProperty("hibernate.c3p0.max_size", "200")
+                        .setProperty("hibernate.c3p0.max_statements", "200");
+                configuration.addAnnotatedClass(User.class);
 
-            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                    .applySettings(configuration.getProperties()).build();
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            System.out.println("ok");
-        } catch (HibernateException e) {
-            e.printStackTrace();
+                ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                        .applySettings(configuration.getProperties()).build();
+                sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+                System.out.println("ok");
+            } catch (HibernateException e) {
+                e.printStackTrace();
+            }
         }
         return sessionFactory;
     }
+
 }
