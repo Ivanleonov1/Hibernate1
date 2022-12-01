@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import javax.persistence.criteria.CriteriaQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
@@ -29,9 +30,11 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+
+        Session session = null;
         try {
+            session = sessionFactory.openSession();
+            Transaction transaction = session.beginTransaction();
             session.createNativeQuery(CREATE).executeUpdate();
             transaction.commit();
             session.close();
@@ -46,9 +49,11 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void dropUsersTable() {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+
+        Session session = null;
         try {
+            session = sessionFactory.openSession();
+            Transaction transaction = session.beginTransaction();
             session.createNativeQuery(DROP).executeUpdate();
             transaction.commit();
             session.close();
@@ -64,9 +69,12 @@ public class UserDaoHibernateImpl implements UserDao {
     public void saveUser(String name, String lastName, byte age) {
         User user = null;
         if (user != null) {
-            Session session = sessionFactory.openSession();
-            Transaction transaction = session.beginTransaction();
+
+            Transaction transaction = null;
+            Session session = null;
             try {
+                session = sessionFactory.openSession();
+                transaction = session.beginTransaction();
                 session.save(new User(name, lastName, age));
                 transaction.commit();
                 session.close();
@@ -84,9 +92,12 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void removeUserById(long id) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+
+        Transaction transaction = null;
+        Session session = null;
         try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
             session.delete(session.get(User.class, id));
             transaction.commit();
             session.close();
@@ -103,13 +114,16 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        Session session = sessionFactory.openSession();
-        Query query = session.createQuery(FROM_USER);
-        //query.from(User.class);
-        Transaction transaction = session.beginTransaction();
-        List<User> userList = query.list();
-        session.close();
+
+        Transaction transaction = null;
+        Session session = null;
+        List<User> userList = new ArrayList<>();
         try {
+            session = sessionFactory.openSession();
+            Query query = session.createQuery(FROM_USER);
+            transaction = session.beginTransaction();
+            userList = query.list();
+            session.close();
             transaction.commit();
             return userList;
         } catch (HibernateException e) {
@@ -123,9 +137,13 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+
+        Transaction transaction = null;
+
+        Session session = null;
         try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
             session.createNativeQuery(CLEAN).executeUpdate();
             transaction.commit();
             session.close();
